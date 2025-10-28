@@ -34,6 +34,29 @@ async function startServer() {
   
   const app = express();
   const server = createServer(app);
+  
+  // Configure CORS for cross-origin requests from frontend
+  app.use((req, res, next) => {
+    const allowedOrigins = [
+      'https://soco.com.mx',
+      'https://www.soco.com.mx',
+      'http://localhost:5173',
+      'http://localhost:3000'
+    ];
+    const origin = req.headers.origin;
+    if (origin && allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(200);
+    }
+    next();
+  });
+  
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -47,16 +70,6 @@ async function startServer() {
       createContext,
     })
   );
-
-  app.use(cors({
-  origin: [
-    'https://soco-com-mx-frontend.vercel.app',
-    'https://soco.com.mx', // your custom domain
-    'http://localhost:3000' // for local development
-  ],
-  credentials: true
-}));
-  
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
