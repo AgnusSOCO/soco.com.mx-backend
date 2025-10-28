@@ -198,3 +198,10 @@
 - [x] Replace import.meta.dirname with __dirname or process.cwd() for production compatibility
 - [x] Add database migrations to Railway build command
 
+
+
+## Database Migration Strategy Fix
+- [x] Remove db:push from Railway build command (database not accessible during build)
+- [x] Run database migrations on server startup instead
+- [x] Add migration runner to server startup code
+
