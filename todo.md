@@ -182,3 +182,12 @@
 - [x] Fix esbuild error: Could not resolve "../../vite.config" in server/_core/vite.ts
 - [x] Update build configuration to handle vite.config.ts import during backend build
 
+
+
+## Railway Deployment Fix v2
+- [x] Fix vite.config import in server/_core/vite.ts to use dynamic import instead of static import
+- [x] Make vite.config loading conditional for production builds
+- [x] Create esbuild.config.js to properly handle external dependencies
+- [x] Fix Railway startCommand to use correct dist/index.js path
+- [x] Verify production server starts correctly
+

@@ -4,7 +4,6 @@ import { type Server } from "http";
 import { nanoid } from "nanoid";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import viteConfig from "../../vite.config";
 
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
@@ -12,6 +11,10 @@ export async function setupVite(app: Express, server: Server) {
     hmr: { server },
     allowedHosts: true as const,
   };
+
+  // Dynamic import to avoid bundling vite.config in production
+  const viteConfigModule = await import("../../vite.config.js");
+  const viteConfig = viteConfigModule.default || viteConfigModule;
 
   const vite = await createViteServer({
     ...viteConfig,
