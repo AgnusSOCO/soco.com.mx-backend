@@ -47,6 +47,16 @@ async function startServer() {
       createContext,
     })
   );
+
+  app.use(cors({
+  origin: [
+    'https://soco-com-mx-frontend.vercel.app',
+    'https://soco.com.mx', // your custom domain
+    'http://localhost:3000' // for local development
+  ],
+  credentials: true
+}));
+  
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
